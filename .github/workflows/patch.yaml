@@ -19,8 +19,9 @@ jobs:
 
       - name: Install Dependencies.
         run: |
+          # NOTE: Dependencies are required to run the version script.
+          python3 -m pip install bumpver jsonpath_ng "pydantic>=2" "pydantic-settings>=2" pyyaml
           init_version=$( python3 -m yaml_settings_pydantic version )
-          python3 -m pip install bumpver
 
       - name: Bump Version.
         run: python3 -m bumpver
