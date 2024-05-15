@@ -17,14 +17,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+        # NOTE: Dependencies are required to run the version script.
       - name: Install Dependencies.
         run: |
-          # NOTE: Dependencies are required to run the version script.
           python3 -m pip install bumpver jsonpath_ng "pydantic>=2" "pydantic-settings>=2" pyyaml
           init_version=$( python3 -m yaml_settings_pydantic version )
 
       - name: Bump Version.
-        run: python3 -m bumpver
+        run: python3 -m bumpver update --patch
 
       - name: Commit and Push.
         run: |
@@ -34,6 +34,7 @@ jobs:
           git push
           git push --tags
 
+      # NOTE: https://docs.github.com/en/actions/using-workflows/using-github-cli-in-workflows
       - name: Trigger the Pipeline for Publishing (See key 'on' of publish).
         run: |
           final_version=$( python3 -m yaml_settings_pydantic version )
@@ -48,3 +49,5 @@ jobs:
             --repo '${{ github.repository }}' \
             --title "$final_version" \
             --notes "Release $final_version. Bumped from $init_version -> $final_version."
+        env:
+          GH_TOKEN: ${{ secrets.PYS_GITHUB_ACCESS_TOKEN }}
