@@ -21,21 +21,24 @@ class TestExampleCanOverWrite:
     )
 
     def test_init(self, Settings):
+
+        Settings()
+
         raw = dict(
             myFirstSetting=1234,
             myDatabaseSettings=dict(  # type: ignore
                 connectionspec=dict(),
                 hostspec=dict(
-                    username="cornpuff",
-                    password="the thing, you know, the thing",
+                    username="username",
+                    password="password",
                 ),
             ),
         )
-        s = Settings(**raw)  # type: ignore
+        s = Settings.model_validate(raw)  # type: ignore
 
-        assert s.myFirstSetting == 1234, "Failed to load first levl settings."
+        assert s.myFirstSetting == 1234
         assert (
-            s.myDatabaseSettings.hostspec.username == "cornpuff"
+            s.myDatabaseSettings.hostspec.username == "username"
         ), "Failed to load nested configuration."
 
     @mock.patch.dict(os.environ, **env_extras)
