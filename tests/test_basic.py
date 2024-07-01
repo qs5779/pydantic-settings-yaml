@@ -1,4 +1,4 @@
-import logging
+# import logging
 import os
 import pathlib
 from typing import Annotated, Set, Tuple, Type
@@ -50,23 +50,23 @@ class TestCreateYamlSettings:
             yaml.dump([], file)
 
         # # NOTE: Loading should not be an error as the files should not be reloaded.
-        # yaml_settings()
+        yaml_settings()
         #
         # # NOTE: Test reloading with bad file.
         # #       This could be called without the args as mutation is visible
         # #       to fn.
-        # Settings = create_settings(reload=False)
-        # yaml_settings = CreateYamlSettings(Settings)
-        #
-        # with pytest.raises(ValueError) as err:
-        #     yaml_settings()
-        #
-        # assert str(bad) in str(err.value)
-        #
-        # with open(bad, "w") as file:
-        #     yaml.dump({}, file)
-        #
-        # yaml_settings()
+        Settings = create_settings(reload=False)
+        yaml_settings = CreateYamlSettings(Settings)
+
+        with pytest.raises(ValueError) as err:
+            yaml_settings()
+
+        assert str(bad) in str(err.value)
+
+        with open(bad, "w") as file:
+            yaml.dump({}, file)
+
+        yaml_settings()
 
     def from_model_config(
         self, **kwargs
