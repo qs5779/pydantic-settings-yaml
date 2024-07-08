@@ -72,10 +72,12 @@ pytest-mypy-plugins = "^3.1.2"
 types-toml = "^0.10.8.20240310"
 bumpver = "^2023.1129"
 
-[tool.poetry.group.extras.dependencies]
+[tool.poetry.group.ci.dependencies]
 twine = "^5.1.1"
+build = "^1.2.1"
 
 [tool.poetry.group.test.dependencies]
+click = "^8.1.7"
 pytest = "^8.2.2"
 pytest-mypy = "^0.10.3"
 
